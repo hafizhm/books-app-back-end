@@ -34,7 +34,7 @@ const addBookHandler = (request, h) => {
         status: 'fail',
         message: 'Gagal menambahkan buku. Mohon isi nama buku',
       });
-      response.code(500);
+      response.code(400);
       return response;
 };
 
