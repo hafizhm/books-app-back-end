@@ -1,3 +1,4 @@
+const { response } = require('@hapi/hapi/lib/validation');
 const { nanoid } = require('nanoid');
 const books = require('./books')
 
@@ -57,15 +58,21 @@ const addBookHandler = (request, h) => {
 
     }
 
-     
-
 // read all
-const getAllBooksHandler = () => ({
+const getAllBooksHandler = (request, h) => {
+  const response = h.response ({
     status: 'success',
     data: {
-      books,
+      books: books.map((n) => ({
+        id: n.id,
+        name: n.name,
+        publisher: n.publisher,
+      })),
     },
   });
+   response.code(200);
+   return response;
+  };
  
 
 // read by ID
