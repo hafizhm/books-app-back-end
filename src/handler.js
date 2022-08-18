@@ -78,19 +78,35 @@ const getAllBooksHandler = (request, h) => {
 // read by ID
 const getBookByIdHandler = (request, h) => {
     const { bookId  } = request.params;
+
+    const finished = pageCount === readPage;
  
     const book = books.filter((n) => n.id === bookId)[0];
 
     if (book !== undefined) {
+      if(finished) {
       const response = h.response ({
         status: 'success',
         data: {
             book,
+            finished: true,
           },
       });
       response.code(200);
       return response;
       }
+      else {
+        const response = h.response ({
+          status: 'success',
+          data: {
+              book,
+              finished: false,
+            },
+        });
+        response.code(200);
+        return response;
+      }
+    }
 
       const response = h.response({
         status: 'fail',
