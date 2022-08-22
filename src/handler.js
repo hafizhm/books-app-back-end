@@ -65,10 +65,6 @@ const getAllBooksHandler = (request, h) => {
 
   const getBooks = books;
 
-  //if(finished !== undefined) {
-  //  getBooks = getBooks.filter((book) => book.finished === !!Number(finished));
-  //}
-
   const response = h.response ({
     status: 'success',
     data: {
@@ -86,10 +82,8 @@ const getAllBooksHandler = (request, h) => {
 
 // read by ID
 const getBookByIdHandler = (request, h) => {
-    const { bookId  } = request.params;
-    const { name, reading, finished } = request.query;
-
-
+    const { bookId } = request.params;
+    
     const book = books.filter((n) => n.id === bookId)[0];
 
     if (book !== undefined) {
@@ -114,12 +108,12 @@ const getBookByIdHandler = (request, h) => {
 
 // edit
 const editBookByIdHandler = (request, h) => {
-    const { id } = request.params;
+    const { bookId } = request.params;
 
     const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
     const updatedAt = new Date().toISOString();
 
-    const index = books.findIndex((book) => book.id === id);
+    const index = books.findIndex((book) => book.bookId === id);
 
     // kalo dapet id books nya , pastiin ID nya bukan -1
     if(index !== -1) {
@@ -136,14 +130,41 @@ const editBookByIdHandler = (request, h) => {
           updatedAt,
         };
 
-        const response = h.response({
-            status: 'success',
-            message: 'Buku berhasil diperbarui',
+        if(id === undefined) {
+          const response = h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. Id tidak ditemukan',
           });
-          response.code(200);
+          response.code(404);
           return response;
-        }   
+        }
         
+        if(name === undefined) {
+          const response = h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. Mohon isi nama buku',
+          });
+          response.code(400);
+          return response;
+        }
+
+        if(readPage > pageCount) {
+          const response = h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+          });
+          response.code(400);
+          return response;
+        }
+        
+        const response = h.response({
+          status: 'success',
+          message: 'Buku berhasil diperbarui',
+        });
+        response.code(200);
+        return response;
+      }
+
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Id tidak ditemukan',
