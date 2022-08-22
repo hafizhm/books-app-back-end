@@ -147,16 +147,6 @@ const editBookByIdHandler = (request, h) => {
         updatedAt,
       };
 
-      if(id === undefined) {
-        const response = h.response({
-          status: 'fail',
-          message: 'Gagal memperbarui buku. Id tidak ditemukan',
-        });
-        response.code(404);
-        return response;
-      }
-
-     
       const response = h.response({
         status: 'success',
         message: 'Buku berhasil diperbarui',
@@ -165,16 +155,14 @@ const editBookByIdHandler = (request, h) => {
       return response;
     }
 
-
-    
-    
-
- 
-
-    // kalo dapet id books nya , pastiin ID nya bukan -1
-    
-  
-        
+     // if(id === undefined) {
+       // const response = h.response({
+         // status: 'fail',
+         // message: 'Gagal memperbarui buku. Id tidak ditemukan',
+       // });
+       // response.code(404);
+       // return response;
+     // }
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Id tidak ditemukan',
