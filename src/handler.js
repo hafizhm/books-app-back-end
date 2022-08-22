@@ -113,7 +113,7 @@ const editBookByIdHandler = (request, h) => {
     const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
     const updatedAt = new Date().toISOString();
 
-    const index = books.findIndex((book) => book.bookId === id);
+    const index = books.findIndex((book) => book.id === bookId);
 
     // kalo dapet id books nya , pastiin ID nya bukan -1
     if(index !== -1) {
