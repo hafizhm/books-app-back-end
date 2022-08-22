@@ -10,6 +10,7 @@ const addBookHandler = (request, h) => {
     const id = nanoid(16);
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
+    const finished = pageCount === readPage;
 
     const newBook = {
         name, year, author, summary, publisher, pageCount, readPage, reading, id, insertedAt, updatedAt,
@@ -59,7 +60,15 @@ const addBookHandler = (request, h) => {
     }
 
 // read all
-const getAllBooksHandler = (request, h) => {
+const getAllBooksHandler = (request, h) => { 
+  const { name, reading, finished } = request.query;
+
+  const getBooks = books;
+
+  if(finished !== undefined) {
+    getBooks = getBooks.filter((book) => book.finished === !!Number(finished));
+  }
+
   const response = h.response ({
     status: 'success',
     data: {
@@ -79,8 +88,6 @@ const getAllBooksHandler = (request, h) => {
 const getBookByIdHandler = (request, h) => {
     const { bookId  } = request.params;
 
-    //const finished = pageCount === readPage;
- 
     const book = books.filter((n) => n.id === bookId)[0];
 
     if (book !== undefined) {
@@ -89,7 +96,6 @@ const getBookByIdHandler = (request, h) => {
         status: 'success',
         data: {
             book,
-            finished: true,
           },
       });
       response.code(200);
