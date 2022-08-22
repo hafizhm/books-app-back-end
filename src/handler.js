@@ -129,6 +129,15 @@ const editBookByIdHandler = (request, h) => {
         updatedAt,
       };
 
+      if(name === undefined) {
+        const response = h.response({
+          status: 'fail',
+          message: 'Gagal memperbarui buku. Mohon isi nama buku',
+        });
+        response.code(400);
+        return response;
+      }
+
       const response = h.response({
         status: 'success',
         message: 'Buku berhasil diperbarui',
@@ -147,14 +156,7 @@ const editBookByIdHandler = (request, h) => {
       return response;
     }
     
-    if(name === undefined) {
-      const response = h.response({
-        status: 'fail',
-        message: 'Gagal memperbarui buku. Mohon isi nama buku',
-      });
-      response.code(400);
-      return response;
-    }
+    
 
     if(readPage > pageCount) {
       const response = h.response({
