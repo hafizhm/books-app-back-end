@@ -13,7 +13,7 @@ const addBookHandler = (request, h) => {
     const finished = pageCount === readPage;
 
     const newBook = {
-        name, year, author, summary, publisher, pageCount, readPage, reading, id, insertedAt, updatedAt,
+        name, year, author, summary, publisher, pageCount, readPage, reading, id, finished, insertedAt, updatedAt,
       };
 
     books.push(newBook);
@@ -61,13 +61,13 @@ const addBookHandler = (request, h) => {
 
 // read all
 const getAllBooksHandler = (request, h) => { 
-  const { name, reading, finished } = request.query;
+  //const { name, reading, finished } = request.query;
 
   const getBooks = books;
 
-  if(finished !== undefined) {
-    getBooks = getBooks.filter((book) => book.finished === !!Number(finished));
-  }
+  //if(finished !== undefined) {
+  //  getBooks = getBooks.filter((book) => book.finished === !!Number(finished));
+  //}
 
   const response = h.response ({
     status: 'success',
@@ -87,6 +87,8 @@ const getAllBooksHandler = (request, h) => {
 // read by ID
 const getBookByIdHandler = (request, h) => {
     const { bookId  } = request.params;
+    const { name, reading, finished } = request.query;
+
 
     const book = books.filter((n) => n.id === bookId)[0];
 
