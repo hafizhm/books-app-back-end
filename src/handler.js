@@ -115,6 +115,33 @@ const editBookByIdHandler = (request, h) => {
 
     const index = books.findIndex((book) => book.id === bookId);
 
+    if(id === undefined) {
+      const response = h.response({
+        status: 'fail',
+        message: 'Gagal memperbarui buku. Id tidak ditemukan',
+      });
+      response.code(404);
+      return response;
+    }
+    
+    if(name === undefined) {
+      const response = h.response({
+        status: 'fail',
+        message: 'Gagal memperbarui buku. Mohon isi nama buku',
+      });
+      response.code(400);
+      return response;
+    }
+
+    if(readPage > pageCount) {
+      const response = h.response({
+        status: 'fail',
+        message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+      });
+      response.code(400);
+      return response;
+    }
+
     // kalo dapet id books nya , pastiin ID nya bukan -1
     if(index !== -1) {
         books[index] = {
@@ -129,34 +156,7 @@ const editBookByIdHandler = (request, h) => {
           reading,
           updatedAt,
         };
-
-        if(id === undefined) {
-          const response = h.response({
-            status: 'fail',
-            message: 'Gagal memperbarui buku. Id tidak ditemukan',
-          });
-          response.code(404);
-          return response;
-        }
-        
-        if(name === undefined) {
-          const response = h.response({
-            status: 'fail',
-            message: 'Gagal memperbarui buku. Mohon isi nama buku',
-          });
-          response.code(400);
-          return response;
-        }
-
-        if(readPage > pageCount) {
-          const response = h.response({
-            status: 'fail',
-            message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
-          });
-          response.code(400);
-          return response;
-        }
-        
+  
         const response = h.response({
           status: 'success',
           message: 'Buku berhasil diperbarui',
