@@ -84,7 +84,7 @@ const getBookByIdHandler = (request, h) => {
     const book = books.filter((n) => n.id === bookId)[0];
 
     if (book !== undefined) {
-      if(pageCount === readPage) {
+      
       const response = h.response ({
         status: 'success',
         data: {
@@ -94,18 +94,6 @@ const getBookByIdHandler = (request, h) => {
       });
       response.code(200);
       return response;
-      }
-      else {
-        const response = h.response ({
-          status: 'success',
-          data: {
-              book,
-              finished: false,
-            },
-        });
-        response.code(200);
-        return response;
-      }
     }
 
       const response = h.response({
