@@ -138,6 +138,24 @@ const editBookByIdHandler = (request, h) => {
         return response;
       }
 
+      if(readPage > pageCount) {
+        const response = h.response({
+          status: 'fail',
+          message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+        });
+        response.code(400);
+        return response;
+      }
+
+      if(id === undefined) {
+        const response = h.response({
+          status: 'fail',
+          message: 'Gagal memperbarui buku. Id tidak ditemukan',
+        });
+        response.code(404);
+        return response;
+      }
+    
       const response = h.response({
         status: 'success',
         message: 'Buku berhasil diperbarui',
@@ -147,25 +165,10 @@ const editBookByIdHandler = (request, h) => {
     }
 
 
-    if(id === undefined) {
-      const response = h.response({
-        status: 'fail',
-        message: 'Gagal memperbarui buku. Id tidak ditemukan',
-      });
-      response.code(404);
-      return response;
-    }
     
     
 
-    if(readPage > pageCount) {
-      const response = h.response({
-        status: 'fail',
-        message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
-      });
-      response.code(400);
-      return response;
-    }
+ 
 
     // kalo dapet id books nya , pastiin ID nya bukan -1
     
