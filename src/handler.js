@@ -115,6 +115,20 @@ const editBookByIdHandler = (request, h) => {
 
     const index = books.findIndex((book) => book.id === bookId);
 
+    if(index !== -1) {
+      books[index] = {
+        ...books[index],
+        name,
+        year,
+        author,
+        summary,
+        publisher,
+        pageCount,
+        readPage, 
+        reading,
+        updatedAt,
+      };
+
     if(id === undefined) {
       const response = h.response({
         status: 'fail',
@@ -143,19 +157,7 @@ const editBookByIdHandler = (request, h) => {
     }
 
     // kalo dapet id books nya , pastiin ID nya bukan -1
-    if(index !== -1) {
-        books[index] = {
-          ...books[index],
-          name,
-          year,
-          author,
-          summary,
-          publisher,
-          pageCount,
-          readPage, 
-          reading,
-          updatedAt,
-        };
+    
   
         const response = h.response({
           status: 'success',
